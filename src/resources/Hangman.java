@@ -100,7 +100,7 @@ public class Hangman {
                 String subStr1 = guessedWord.substring(0,secretWord.letterLocation(letter));
                 String subStr2 = guessedWord.substring(secretWord.letterLocation(letter) + 1, secretWord.letterLocation(letter,2));
                 String subStr3 = guessedWord.substring(secretWord.letterLocation(letter,2)+1);
-                guessedWord = subStr1+ letter.toUpperCase() + subStr2 + letter.toUpperCase() + subStr3;                           // Then sets guessed word with the letter in between each subString
+                guessedWord = subStr1+ letter.toUpperCase() + subStr2 + letter.toUpperCase() + subStr3;   // Then sets guessed word with the letter in between each subString
             }else{
                 String subStr1 = guessedWord.substring(0,secretWord.letterLocation(letter));        // creates first substring
                 String subStr2 = guessedWord.substring(secretWord.letterLocation(letter)+1);        // creates second
