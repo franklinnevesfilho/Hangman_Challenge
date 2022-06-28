@@ -27,8 +27,8 @@ public class PlayGame {
 
         // Game starts here
             boolean gameHasFinished = false;
-            while(!gameHasFinished) {
-                if (game.getGuessNumber() < numberOfGuesses || !(game.wordCorrect())) {     // checks if the guess number is less than the number of guesses allowed
+             do{
+                if (game.getGuessNumber() < numberOfGuesses && !(game.wordCorrect())) {     // checks if the guess number is less than the number of guesses allowed
                     System.out.println("-- You have " + guessesLeft + " guesses --");    // displays how many guesses left
                     System.out.println("Guess this word: " + game.getGuessedWord());     // displays the guessedWord so far
                     System.out.println("type in your guess below:\n(Must be a letter)");
@@ -44,7 +44,7 @@ public class PlayGame {
                 } else {
                     gameHasFinished = true;                                             // if exceeded number of guesses or word is correct will end loop
                 }
-            }
+            }while(!gameHasFinished);
     }
 
     public static void determineWinner(){

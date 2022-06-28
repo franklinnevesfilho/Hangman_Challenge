@@ -14,8 +14,9 @@ public record SecretWord(String word) {
     //if the modified string is 2 places less than the normal String it has more than one instance
     public boolean hasMoreThanOne(String letter) {
         boolean result = false;
-        final int index = word.toLowerCase().indexOf(letter.toLowerCase());
-        if (word.toLowerCase().indexOf(letter.toLowerCase(),index + 1) > - 1) {
+        String wordToLower = word.toLowerCase();
+        String letterToLower = letter.toLowerCase();
+        if (wordToLower.indexOf(letterToLower,wordToLower.indexOf(letterToLower )+1) > -1) {
             result = true;
         }
         return result;
@@ -26,19 +27,17 @@ public record SecretWord(String word) {
     public int letterLocation(String letter) {
         return word.toLowerCase().indexOf(letter.toLowerCase());
     }
-
+    public int letterLocation(String letter, int startingIndex){
+        return word.toLowerCase().indexOf(letter.toLowerCase(),startingIndex);
+    }
     //  The second parameter will be to get the index of a repeated letter
     //  In this method the second parameter will allow to get the location
     //          of the first and second instance of that letter
-    public int letterLocation(String letter, int instance) {
+    public int secondLetterLocation(String letter) {
         int location = -1;
         if (this.hasMoreThanOne(letter)) {
             final int indexOf = word.toLowerCase().indexOf(letter.toLowerCase());
-            switch (instance) {
-                case 1 -> location = indexOf;
-                case 2 -> location = word.indexOf(letter.toLowerCase(), indexOf + 1);
-
-            }
+            location = word.indexOf(letter.toLowerCase(), indexOf + 1);
         }
         return location;
     }
