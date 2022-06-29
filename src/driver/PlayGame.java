@@ -1,5 +1,4 @@
 package driver;
-
 import driver.gui.MainFrame;
 import resources.Hangman;
 
@@ -11,10 +10,16 @@ public class PlayGame {
 
     public static void main(String[] args) {
 
+
+        // These two lines will open a gui
+        // Hope you enjoy the game!
+
         Hangman game = new Hangman();
         MainFrame gameFrame = new MainFrame(game);
 
-        /* boolean playAgain;
+        // The below portion was what was asked of the Main method
+        /*
+        boolean playAgain;
         do{
             Hangman game = new Hangman();
             processGuesses(game);
@@ -22,8 +27,7 @@ public class PlayGame {
 
             playAgain = playAgain();
         }while(playAgain);
-
-        */
+     */
     }
 
     public static void processGuesses(Hangman game){
@@ -58,7 +62,7 @@ public class PlayGame {
     }
 
     public static void determineWinner(Hangman game){
-        if(game.getGuessedWord().equalsIgnoreCase(game.getSecretWord())){
+        if(game.getGuessedWord().equalsIgnoreCase(game.getSecretWord())){   // checks if words match
             System.out.println("You've Won!!!");
             gamesWon++;
         }else{

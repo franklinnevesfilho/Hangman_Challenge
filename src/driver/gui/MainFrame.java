@@ -3,12 +3,25 @@ package driver.gui;
 import resources.Hangman;
 
 import javax.swing.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Objects;
 
+/**
+ * this class is equivalent to the driver class
+ * It has most of the game logic and will display onto the GUI
+ * The images here were created by myself
+ */
+
 public class MainFrame extends JFrame {
+//==============================================
+//-------------- Global variables --------------
+//==============================================
     Hangman game;
+
     private int gamesWon = 0;
     private int gamesLost = 0;
+
     private JPanel mainPanel;
     private JPanel buttonsPanel;
     private JPanel parentPanel;
@@ -29,6 +42,7 @@ public class MainFrame extends JFrame {
     private JLabel gamesLostLbl;
     private JLabel Author;
 
+    // These are all the images created by me for this project
     public static ImageIcon[] images = {
             getImage("/resources/images/logo.png")    ,
             getImage("/resources/images/first.png")   ,
@@ -47,24 +61,31 @@ public class MainFrame extends JFrame {
         return new ImageIcon(Objects.requireNonNull(MainFrame.class.getResource(path)));
     }
 
+    // The constructor for this class
     public MainFrame(Hangman game) {
-        this.game = game;
+        this.game = game; // sets up the game
 
-        this.setIconImage(images[0].getImage());
-        this.setContentPane(mainPanel);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setIconImage(images[0].getImage());    // displays logo on GUI
+        this.setContentPane(mainPanel);             // sets teh first panel to the mainPanel
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    // when exit applicaiton to close
 
-        updatePicture();
-        updateGuessedWord();
+        updatePicture();            // this method will update the picture
+        updateGuessedWord();        // this method will update the guessed word
 
-        startBtn.setVisible(true);
-        startBtn.setEnabled(true);
+        setButton(startBtn, true);
+        setButton(playAgainBtn, false);
 
-        playAgainBtn.setVisible(false);
-        playAgainBtn.setEnabled(false);
+        updateScore();
 
-        gamesWonLbl.setText(String.valueOf(gamesWon));
-        gamesLostLbl.setText(String.valueOf(gamesLost));
+        userGuessTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                userGuessTF.setText("");
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+            }
+        });
 
         startBtn.addActionListener(e -> {
             parentPanel.removeAll();
@@ -72,8 +93,7 @@ public class MainFrame extends JFrame {
             parentPanel.repaint();
             parentPanel.revalidate();
 
-            startBtn.setEnabled(false);
-            startBtn.setVisible(false);
+            setButton(startBtn, false);
 
             playAgainBtn.setVisible(true);
             playAgainBtn.setEnabled(false);
@@ -81,7 +101,7 @@ public class MainFrame extends JFrame {
 
         submitGuessBtn.addActionListener(e -> {
             String letter = userGuessTF.getText();
-            if(validGuess(letter)){ // validGuess checks if the guess is only one character and not a number
+            if(isValidGuess(letter)){ // validGuess checks if the guess is only one character and not a number
                 userGuessed(letter);    // method for handling each guess
             }else{
                 JOptionPane.showMessageDialog(
@@ -92,51 +112,42 @@ public class MainFrame extends JFrame {
             userGuessTF.setText("");                                    // Clear Text Field
         });
 
-        playAgainBtn.addActionListener(e ->{
-            playAgain();
-        });
+        playAgainBtn.addActionListener(e -> playAgain());
 
         this.pack();
         this.validate();
         this.setVisible(true);
     }
+//========================================================================
+//---------------------- Boolean method ---------------------------------
+//========================================================================
 
-    // checks if the string is only a single letter and not a number
-    private boolean validGuess(String letter){
-        return !letter.isBlank() && letter.length() == 1 && !isNumeric(letter);
+    // checks if the string is a letter
+    private boolean isValidGuess(String letter){
+        boolean isLetter = Character.isLetter(letter.charAt(0)); // is the String a letter
+        return isLetter && letter.length() == 1;    // checks if String is only one letter
     }
 
-    // returns true if the string is number
-    private boolean isNumeric(String letter){
-        boolean result = true;
-        try{
-            Integer.parseInt(letter);
-        }catch(Exception e){
-            result = false;
-        }
-
-        return result;
-    }
+//========================================================================
+//========================================================================
 
     // method for the user guess
-    private void userGuessed(String letter){
 
+    private void userGuessed(String letter){
         updateGuessedLetters(letter);   // updates the guessed letters
         updateGuessedWord();            // updates the guessed word
         updatePicture();                // updates the picture
-
-        if(game.isWordCorrect() || game.getGuessNumber() >= 10){
+        if(game.isWordCorrect() || game.getGuessNumber() == images.length){ // if guess number is equal to the number of images
             gameOver();     // disabled the game and reveals the word
         }
     }
-
     private void updateGuessedLetters(String letter){
         game.checkGuess(letter);            // checks the guess
-        String totalGuesses = "";           // creates a string to store total guesses
+        StringBuilder totalGuesses = new StringBuilder();           // creates a string to store total guesses
         for(int i = 0; i < game.getGuessedLettersList().size(); i++){
-            totalGuesses += game.getGuessedLettersList().get(i) + " "; // adds space between every letter
+            totalGuesses.append(game.getGuessedLettersList().get(i)).append(" "); // adds space between every letter
         }
-        guessedLettersTxt.setText(totalGuesses);        // updates the label appropriately
+        guessedLettersTxt.setText(totalGuesses.toString());        // updates the label appropriately
     }
 
     // this method will update the picture according to the number of guesses
@@ -150,61 +161,65 @@ public class MainFrame extends JFrame {
             picLabel.setIcon(images[10]);
         }
     }
-    // this method updates the guessed word and sets a space between each letter
+    // This method will update the guessed word based
     private void updateGuessedWord(){
         String guessedWord = game.getGuessedWord(); // creates a string of guessed word
         StringBuilder str1 = new StringBuilder();
         for(int i = 0; i < guessedWord.length();i++){
             str1.append(guessedWord.charAt(i)).append(" "); // adds a space after every character
         }
-        guessedWordLbl.setText("<html>"+ str1.toString() +"<html>");        // sets the label appropriately
+        guessedWordLbl.setText("<html>"+ str1 +"<html>");        // sets the label appropriately
+    }
+    // and this method will update teh score in the first panel
+    private void updateScore(){
+        gamesWonLbl.setText(String.valueOf(gamesWon));
+        gamesLostLbl.setText(String.valueOf(gamesLost));
     }
 
-    // this method will run, once the match has finished
+    // this method runs once the game is Over
     private void gameOver(){
-        playAgainBtn.setVisible(true);  // play again button turned on
-        playAgainBtn.setEnabled(true);
-
+        setButton(playAgainBtn, true); // enables the playAgainBtn
         userGuessTF.setEnabled(false);      // disables the text field
         submitGuessBtn.setEnabled(false);   // disables submit button
 
         if(!game.isWordCorrect()){            // if guessed word is not the secret word display it
             guessedLettersLbl.setText(game.getSecretWord());
-            gamesLost++;
+            gamesLost++;                                    // You've lost the game
         }else{
-            gamesWon++;
+            gamesWon++;                                     // You've won the game
         }
-
     }
 
-
+    // Method handler for playAgainBtn
     private void playAgain(){
-
-        parentPanel.removeAll();
-        parentPanel.add(card1Panel);
+        parentPanel.removeAll();        // removes current panel
+        parentPanel.add(card1Panel);    // replaces with first panel
         parentPanel.repaint();
-        parentPanel.revalidate();
+        parentPanel.revalidate();       // methods to display change
 
-        playAgainBtn.setEnabled(false);
-        playAgainBtn.setVisible(false);
-        startBtn.setEnabled(true);
-        startBtn.setVisible(true);
+        setButton(playAgainBtn, false); // disables playAgainBtn
+        setButton(startBtn, true);      // enables StartBtn
+        updateScore();                       // updates teh score
 
-        gamesWonLbl.setText(String.valueOf(gamesWon));
-        gamesLostLbl.setText(String.valueOf(gamesLost));
-
-        Hangman newGame = new Hangman();
-        resetGamePanel(newGame);
+        Hangman newGame = new Hangman();     // creates a new HangMan game
+        resetGamePanel(newGame);             // Resets the gamePanel for new game
 
     }
 
+    // game reset
     private void resetGamePanel(Hangman newGame){
-        this.game = newGame;
-        updateGuessedWord();
-        guessedLettersTxt.setText("");
-        updatePicture();
-        userGuessTF.setEnabled(true);
-        submitGuessBtn.setEnabled(true);
+        this.game = newGame;            // resets hangman
+        updateGuessedWord();            // updates teh word
+        guessedLettersTxt.setText("");  // resets the list
+        updatePicture();                // resets picture
+        userGuessTF.setEnabled(true);   // enables textField
+        submitGuessBtn.setEnabled(true); // enables button
+    }
+
+    // controls whether a button can be clicked and seen
+    private void setButton(JButton button, boolean bool){
+        button.setEnabled(bool);
+        button.setVisible(bool);
     }
 
 }

@@ -85,7 +85,7 @@ public class Hangman {
     //  If not will add the letter to the list then update all values.
     public void checkGuess(String letter){
         if(!guessedLettersList.contains(letter)){   // is letter within the list?
-            guessedLettersList.add(letter);         // if not will add to list
+            guessedLettersList.add(letter.toUpperCase());         // if not will add to list
             guessNumber++;                          // adds to count
             updateGuessedWord(letter);              // then updates guessedWord accordingly
         }else{
