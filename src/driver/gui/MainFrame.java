@@ -67,7 +67,7 @@ public class MainFrame extends JFrame {
 
         this.setIconImage(images[0].getImage());    // displays logo on GUI
         this.setContentPane(mainPanel);             // sets teh first panel to the mainPanel
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    // when exit applicaiton to close
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    // when exit application to close
 
         updatePicture();            // this method will update the picture
         updateGuessedWord();        // this method will update the guessed word
@@ -114,9 +114,9 @@ public class MainFrame extends JFrame {
 
         playAgainBtn.addActionListener(e -> playAgain());
 
-        this.pack();
-        this.validate();
-        this.setVisible(true);
+        this.pack();                                // sizes everything proportionally
+        this.setLocationRelativeTo(null);           // Ensures GUI is in the middle of screen
+        this.setVisible(true);                      // makes the frame visible
     }
 //========================================================================
 //---------------------- Boolean method ---------------------------------
