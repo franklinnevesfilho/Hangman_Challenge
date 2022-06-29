@@ -16,20 +16,20 @@ public class Hangman {
 // ==========================================================================================
 //                          Global variables
 // -----------------------------------------------------------------------------
-    private final ArrayList<String> guessedLetters = new ArrayList<>(); // Stores the letters that have been guessed
+    private final ArrayList<String> guessedLettersList = new ArrayList<>(); // Stores the letters that have been guessed
     private final SecretWord secretWord;                               // Stores the secret word
     private String guessedWord;                                       // Stores the guessed word so far
     private int guessNumber = 0;                                         // keeps track of how many guesses the user has made
 
     private final static String[] secretWords = {              // These are all the available secret words:
-          //  "GAME",                                            //   Game
-          //  "LETTUCE",                                         //   Lettuce
-          //  "BLOCK",                                           //   Block
+            "GAME",                                            //   Game
+            "LETTUCE",                                         //   Lettuce
+            "BLOCK",                                           //   Block
             "SPOON",                                           //   Spoon
-         //   "CONTROLLER",                                      //   Controller
-         //   "SWORD",                                           //   Sword
-         //   "WATER",                                           //   Water
-         //   "BOTTLE"                                           //   Bottle
+            "CONTROLLER",                                      //   Controller
+            "SWORD",                                           //   Sword
+            "WATER",                                           //   Water
+            "BOTTLE"                                           //   Bottle
     };                                                         //  I've made these words all upperCase to simplify comparing
 
 // ==========================================================================================
@@ -63,6 +63,10 @@ public class Hangman {
         return guessNumber;
     }
 
+    public ArrayList<String> getGuessedLettersList(){
+        return guessedLettersList;
+    }
+
 
 //===========================================================================================
 //===========================================================================================
@@ -80,38 +84,42 @@ public class Hangman {
     // This method checks if the letter guessed has already been guessed.
     //  If not will add the letter to the list then update all values.
     public void checkGuess(String letter){
-        if(!guessedLetters.contains(letter)){
-            guessedLetters.add(letter);
+        if(!guessedLettersList.contains(letter)){
+            guessedLettersList.add(letter);
             guessNumber++;
             updateGuessedWord(letter);
+        }else{
+            System.out.println("=============================");
+            System.out.println("Word has already been guessed");
         }
     }
 
     //This method will update the guessed word with the letter guessed
     // if guess word did not change that means that the letter was not
     //              within the secret word.
-    public void updateGuessedWord(String letter){
+    public void updateGuessedWord(String letter) {
         final int firstIndex = secretWord.letterLocation(letter);
 
-        if(secretWord.containsIgnoreCase(letter)){
-            if(secretWord.hasMoreThanOne(letter)){
-                final int secondIndex = secretWord.letterLocation(letter,firstIndex + 1);
+        if (secretWord.containsIgnoreCase(letter)) {
+            if (secretWord.hasMoreThanOne(letter)) {
+                final int secondIndex = secretWord.letterLocation(letter, firstIndex + 1);
 
-                String subStr1 = guessedWord.substring(0,firstIndex);
-                String subStr2 = guessedWord.substring(firstIndex +1, secondIndex);
+                String subStr1 = guessedWord.substring(0, firstIndex);
+                String subStr2 = guessedWord.substring(firstIndex + 1, secondIndex);
                 String subStr3 = guessedWord.substring(secondIndex + 1);
                 guessedWord = subStr1 + letter.toUpperCase() + subStr2 + letter.toUpperCase() + subStr3;
-            }else{
-                String subStr1 = guessedWord.substring(0,firstIndex);        // creates first substring
+            } else {
+                String subStr1 = guessedWord.substring(0, firstIndex);        // creates first substring
                 String subStr2 = guessedWord.substring(firstIndex + 1);        // creates second
                 guessedWord = subStr1 + letter.toUpperCase() + subStr2;                                           // adds the letter in between each string
             }
         }
     }
-
+    // Checks if guessed word is secretWord
     public boolean wordCorrect(){
         return guessedWord.equalsIgnoreCase(secretWord.toString());
     }
+
 
 
 

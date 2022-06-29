@@ -1,26 +1,35 @@
 package driver;
 
+import driver.gui.MainFrame;
 import resources.Hangman;
 
 import java.util.Scanner;
 
 public class PlayGame {
-    public static int gamesWon;
-    public static int gamesLost;
+    public static int gamesWon = 0;
+    public static int gamesLost = 0;
 
     public static void main(String[] args) {
-        boolean playAgain;
+
+        Hangman game = new Hangman();
+        MainFrame gameFrame = new MainFrame(game);
+
+        /* boolean playAgain;
         do{
             Hangman game = new Hangman();
             processGuesses(game);
+            determineWinner(game);
+
             playAgain = playAgain();
         }while(playAgain);
+
+        */
     }
 
     public static void processGuesses(Hangman game){
         Scanner scan = new Scanner(System.in);                    // Scanner used to get user input
         int numberOfGuesses = 3 * game.getSecretWord().length();  // the user has (3 * the number of letter) to guess
-        int guessesLeft = numberOfGuesses - game.getGuessNumber();
+
         System.out.println("=======================================");
         System.out.println("--------- Let's play Hangman! ---------");  // Title
         System.out.println("=======================================");
@@ -29,14 +38,15 @@ public class PlayGame {
             boolean gameHasFinished = false;
              do{
                 if (game.getGuessNumber() < numberOfGuesses && !(game.wordCorrect())) {     // checks if the guess number is less than the number of guesses allowed
-                    System.out.println("-- You have " + guessesLeft + " guesses --");    // displays how many guesses left
+                    System.out.println("===========================================");
+                    System.out.println("-- You have " + (numberOfGuesses - game.getGuessNumber()) + " guesses --");    // displays how many guesses left
                     System.out.println("Guess this word: " + game.getGuessedWord());     // displays the guessedWord so far
                     System.out.println("type in your guess below:\n(Must be a letter)");
                     String answer = scan.nextLine();                                     // Reads answer
-                    if (answer.length() > 1) {                                           // ensures teh answer was only one letter
+                    if (answer.length() > 1 || answer.trim().equals("")) {                                           // ensures the answer was only one letter
+                        System.out.println("=================================");
                         System.out.println("You typed more than one letter...");
                         System.out.println("-------- Let's try again -------");
-                        System.out.println("=================================");
                         System.out.println("=================================");
                     } else {
                         game.checkGuess(answer);                                        // checks if the guess has already been made
@@ -47,12 +57,19 @@ public class PlayGame {
             }while(!gameHasFinished);
     }
 
-    public static void determineWinner(){
+    public static void determineWinner(Hangman game){
+        if(game.getGuessedWord().equalsIgnoreCase(game.getSecretWord())){
+            System.out.println("You've Won!!!");
+            gamesWon++;
+        }else{
+            System.out.println("Oh no you've lost :(");
+            gamesLost++;
 
+        }
     }
 
     //This method asks the user if they would like to play again
-    //      Returns true if they do
+    //      Returns true if they
     public static boolean playAgain(){
         boolean result = false;
         Scanner scan = new Scanner(System.in);
