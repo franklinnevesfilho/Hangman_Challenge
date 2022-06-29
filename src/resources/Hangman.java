@@ -22,14 +22,14 @@ public class Hangman {
     private int guessNumber = 0;                                         // keeps track of how many guesses the user has made
 
     private final static String[] secretWords = {              // These are all the available secret words:
-            "GAME",                                            //   Game
-            "LETTUCE",                                         //   Lettuce
-            "BLOCK",                                           //   Block
-            "SPOON",                                           //   Spoon
-            "CONTROLLER",                                      //   Controller
-            "SWORD",                                           //   Sword
+            //"GAME",                                            //   Game
+           // "LETTUCE",                                         //   Lettuce
+           // "BLOCK",                                           //   Block
+           // "SPOON",                                           //   Spoon
+           // "CONTROLLER",                                      //   Controller
+           // "SWORD",                                           //   Sword
             "WATER",                                           //   Water
-            "BOTTLE"                                           //   Bottle
+           // "BOTTLE"                                           //   Bottle
     };                                                         //  I've made these words all upperCase to simplify comparing
 
 // ==========================================================================================
@@ -84,12 +84,12 @@ public class Hangman {
     // This method checks if the letter guessed has already been guessed.
     //  If not will add the letter to the list then update all values.
     public void checkGuess(String letter){
-        if(!guessedLettersList.contains(letter)){
-            guessedLettersList.add(letter);
-            guessNumber++;
-            updateGuessedWord(letter);
+        if(!guessedLettersList.contains(letter)){   // is letter within the list?
+            guessedLettersList.add(letter);         // if not will add to list
+            guessNumber++;                          // adds to count
+            updateGuessedWord(letter);              // then updates guessedWord accordingly
         }else{
-            System.out.println("=============================");
+            System.out.println("=============================");        // this part is if there is a repeated letter
             System.out.println("Word has already been guessed");
         }
     }
@@ -101,6 +101,7 @@ public class Hangman {
         final int firstIndex = secretWord.letterLocation(letter);
 
         if (secretWord.containsIgnoreCase(letter)) {
+            guessNumber--;              // if letter is in word do not count as guess
             if (secretWord.hasMoreThanOne(letter)) {
                 final int secondIndex = secretWord.letterLocation(letter, firstIndex + 1);
 
@@ -116,7 +117,7 @@ public class Hangman {
         }
     }
     // Checks if guessed word is secretWord
-    public boolean wordCorrect(){
+    public boolean isWordCorrect(){
         return guessedWord.equalsIgnoreCase(secretWord.toString());
     }
 

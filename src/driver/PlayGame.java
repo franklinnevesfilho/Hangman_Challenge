@@ -37,7 +37,7 @@ public class PlayGame {
         // Game starts here
             boolean gameHasFinished = false;
              do{
-                if (game.getGuessNumber() < numberOfGuesses && !(game.wordCorrect())) {     // checks if the guess number is less than the number of guesses allowed
+                if (game.getGuessNumber() < numberOfGuesses && !(game.isWordCorrect())) {     // checks if the guess number is less than the number of guesses allowed
                     System.out.println("===========================================");
                     System.out.println("-- You have " + (numberOfGuesses - game.getGuessNumber()) + " guesses --");    // displays how many guesses left
                     System.out.println("Guess this word: " + game.getGuessedWord());     // displays the guessedWord so far
