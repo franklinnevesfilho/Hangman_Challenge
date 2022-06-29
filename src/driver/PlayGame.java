@@ -4,6 +4,22 @@ import resources.Hangman;
 
 import java.util.Scanner;
 
+/**
+ * @author 6208239
+ *
+ * title: Hangman
+ *
+ * Semester: SummerC 2022
+ * Professor: Charters
+ *
+ * Description:
+ *      This is a classic hangman game.
+ *      In the program below you will find two ways to play it.
+ *      The first being throught hte terminal,
+ *      While the second is a bit more fun and is played through a GUI I designed
+ *      Hope you enjoy!
+ */
+
 public class PlayGame {
     public static int gamesWon = 0;
     public static int gamesLost = 0;
