@@ -121,18 +121,14 @@ public class MainFrame extends JFrame {
 //========================================================================
 //---------------------- Boolean method ---------------------------------
 //========================================================================
-
     // checks if the string is a letter
     private boolean isValidGuess(String letter){
         boolean isLetter = Character.isLetter(letter.charAt(0)); // is the String a letter
         return isLetter && letter.length() == 1;    // checks if String is only one letter
     }
-
 //========================================================================
 //========================================================================
-
     // method for the user guess
-
     private void userGuessed(String letter){
         updateGuessedLetters(letter);   // updates the guessed letters
         updateGuessedWord();            // updates the guessed word
@@ -141,6 +137,7 @@ public class MainFrame extends JFrame {
             gameOver();     // disabled the game and reveals the word
         }
     }
+    // This method updates the guessed Letters
     private void updateGuessedLetters(String letter){
         game.checkGuess(letter);            // checks the guess
         StringBuilder totalGuesses = new StringBuilder();           // creates a string to store total guesses
@@ -149,7 +146,6 @@ public class MainFrame extends JFrame {
         }
         guessedLettersTxt.setText(totalGuesses.toString());        // updates the label appropriately
     }
-
     // this method will update the picture according to the number of guesses
     private void updatePicture() {
         int currentGuess = game.getGuessNumber();
@@ -203,9 +199,7 @@ public class MainFrame extends JFrame {
 
         Hangman newGame = new Hangman();     // creates a new HangMan game
         resetGamePanel(newGame);             // Resets the gamePanel for new game
-
     }
-
     // game reset
     private void resetGamePanel(Hangman newGame){
         this.game = newGame;            // resets hangman
@@ -215,7 +209,6 @@ public class MainFrame extends JFrame {
         userGuessTF.setEnabled(true);   // enables textField
         submitGuessBtn.setEnabled(true); // enables button
     }
-
     // controls whether a button can be clicked and seen
     private void setButton(JButton button, boolean bool){
         button.setEnabled(bool);
