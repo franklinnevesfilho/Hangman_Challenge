@@ -30,20 +30,19 @@ public class PlayGame {
         // These two lines will open a gui
         // Hope you enjoy the game!
 
-        Hangman game = new Hangman();
-        MainFrame gameFrame = new MainFrame(game);
+         Hangman game = new Hangman();
+         MainFrame gameFrame = new MainFrame(game);
 
         // The below portion was what was asked of the Main method
-        /*
+/*
         boolean playAgain;
-        do{
+        do {
             Hangman game = new Hangman();
             processGuesses(game);
             determineWinner(game);
-
             playAgain = playAgain();
-        }while(playAgain);
-     */
+        } while (playAgain);
+        */
     }
 
     public static void processGuesses(Hangman game){

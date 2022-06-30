@@ -71,13 +71,13 @@ public class Hangman {
     // This method checks if the letter guessed has already been guessed.
     //  If not will add the letter to the list then update all values.
     public void checkGuess(String letter){
-        if(!guessedLettersList.contains(letter)){   // is letter within the list?
+        if(!guessedLettersList.contains(letter.toUpperCase())){   // is letter within the list?
             guessedLettersList.add(letter.toUpperCase());         // if not will add to list
             guessNumber++;                          // adds to count
             updateGuessedWord(letter);              // then updates guessedWord accordingly
         }else{
             System.out.println("=============================");        // this part is if there is a repeated letter
-            System.out.println("Word has already been guessed");
+            System.out.println("Letter has already been guessed");
         }
     }
     //This method will update the guessed word with the letter guessed
@@ -96,7 +96,7 @@ public class Hangman {
             } else {
                 String subStr1 = guessedWord.substring(0, firstIndex);        // creates first substring
                 String subStr2 = guessedWord.substring(firstIndex + 1);        // creates second
-                guessedWord = subStr1 + letter.toUpperCase() + subStr2;                                           // adds the letter in between each string
+                guessedWord = subStr1 + letter.toUpperCase() + subStr2;        // adds the letter in between each string
             }
         }
     }
